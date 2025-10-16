@@ -50,6 +50,19 @@
             overflow-x: hidden;
             line-height: 1.7;
         }
+
+		@keyframes logoSpin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.logo-spin {
+    animation: logoSpin 0.8s ease-in-out;
+}
 		
 
         /* Абстрактный фон - яркий и заметный */
@@ -818,7 +831,20 @@ setTimeout(() => {
     }
 }, 100);
 
+		// Анимация лого при клике
+const logo = document.querySelector('.logo img');
+if (logo) {
+    logo.addEventListener('click', function(e) {
+        e.preventDefault();
+        this.classList.add('logo-spin');
+        setTimeout(() => {
+            this.classList.remove('logo-spin');
+        }, 800);
+    });
+}
+
     </script>
 </body>
 
 </html>
+
