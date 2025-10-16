@@ -844,15 +844,26 @@ setTimeout(() => {
     }
 }, 100);
 
-		// Анимация лого при клике
-const logo = document.querySelector('.logo img');
-if (logo) {
-    logo.addEventListener('click', function(e) {
+// Анимация лого при клике с обновлением страницы
+const logoLink = document.querySelector('.logo');
+if (logoLink) {
+    logoLink.addEventListener('click', function(e) {
         e.preventDefault();
-        this.classList.add('logo-spin');
-        setTimeout(() => {
-            this.classList.remove('logo-spin');
-        }, 800);
+        const logoImg = this.querySelector('img');
+        
+        if (logoImg) {
+            // Запускаем анимацию
+            logoImg.classList.add('logo-spin');
+            
+            // После завершения анимации обновляем страницу
+            setTimeout(() => {
+                logoImg.classList.remove('logo-spin');
+                window.location.reload();
+            }, 800);
+        } else {
+            // Если нет картинки, просто обновляем страницу
+            window.location.reload();
+        }
     });
 }
 
@@ -860,5 +871,6 @@ if (logo) {
 </body>
 
 </html>
+
 
 
