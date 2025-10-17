@@ -137,18 +137,6 @@
     z-index: -2;
 }
 
-/* Полоски, следующие за курсором */
-.cursor-trail {
-    position: fixed;
-    width: 100px;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--orange-primary), transparent);
-    pointer-events: none;
-    z-index: 9998;
-    opacity: 0;
-    transform-origin: left center;
-}
-
 .cursor-trail::before {
     content: '';
     position: absolute;
@@ -1223,7 +1211,6 @@ setTimeout(() => {
 // Инициализация эффектов после загрузки DOM
 document.addEventListener('DOMContentLoaded', function() {
     initParallaxEffect();
-    initCursorTrail();
     initParticles();
 });
 
@@ -1257,82 +1244,10 @@ function initParallaxEffect() {
     updateParallax();
 }
 
-// 2. Полоски, следующие за курсором
-function initCursorTrail() {
-    const trails = [];
-    const trailCount = 3; // Количество полосок
-    
-    // Создаем полоски
-    for (let i = 0; i < trailCount; i++) {
-        const trail = document.createElement('div');
-        trail.className = 'cursor-trail';
-        trail.style.opacity = '0';
-        document.body.appendChild(trail);
-        trails.push({
-            element: trail,
-            x: 0,
-            y: 0,
-            delay: i * 100 // Задержка для каждой полоски
-        });
-    }
-    
-    let mouseX = 0;
-    let mouseY = 0;
-    let animationFrame;
-    
-    // Обновляем позицию курсора
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
-    
-    function updateTrails() {
-        trails.forEach((trail, index) => {
-            setTimeout(() => {
-                const element = trail.element;
-                const delayFactor = index / trails.length;
-                
-                // Плавное движение к курсору
-                trail.x += (mouseX - trail.x) * 0.2;
-                trail.y += (mouseY - trail.y) * 0.2;
-                
-                // Вычисляем угол поворота
-                const dx = mouseX - trail.x;
-                const dy = mouseY - trail.y;
-                const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-                
-                // Применяем трансформации
-                element.style.left = trail.x + 'px';
-                element.style.top = trail.y + 'px';
-                element.style.transform = `rotate(${angle}deg)`;
-                element.style.opacity = '0.7';
-                
-                // Исчезание
-                setTimeout(() => {
-                    element.style.opacity = '0';
-                }, 200);
-            }, trail.delay);
-        });
-        
-        animationFrame = requestAnimationFrame(updateTrails);
-    }
-    
-    updateTrails();
-    
-    // Останавливаем анимацию когда курсор не двигается
-    let mouseStopTimer;
-    document.addEventListener('mousemove', () => {
-        clearTimeout(mouseStopTimer);
-        mouseStopTimer = setTimeout(() => {
-            cancelAnimationFrame(animationFrame);
-        }, 1000);
-    });
-}
-
-// 3. Интерактивные частицы
+// 2. Интерактивные частицы (улучшенная версия)
 function initParticles() {
     const particles = [];
-    const particleCount = 50;
+    const particleCount = 80; // Увеличили количество частиц
     
     // Создаем частицы
     for (let i = 0; i < particleCount; i++) {
@@ -1344,19 +1259,42 @@ function initParticles() {
         particle.className = 'particle';
         
         // Случайные начальные параметры
-        const size = Math.random() * 3 + 2;
+        const size = Math.random() * 4 + 1; // Разный размер
         const posX = Math.random() * window.innerWidth;
         const posY = Math.random() * window.innerHeight;
-        const velocityX = (Math.random() - 0.5) * 2;
-        const velocityY = (Math.random() - 0.5) * 2;
-        const opacity = Math.random() * 0.6 + 0.2;
+        const velocityX = (Math.random() - 0.5) * 1.5;
+        const velocityY = (Math.random() - 0.5) * 1.5;
+        const opacity = Math.random() * 0.8 + 0.2;
+        
+        // Разные формы частиц
+        const shapes = ['circle', 'blob'];
+        const shape = shapes[Math.floor(Math.random() * shapes.length)];
         
         particle.style.width = size + 'px';
         particle.style.height = size + 'px';
         particle.style.left = posX + 'px';
         particle.style.top = posY + 'px';
         particle.style.opacity = opacity;
-        particle.style.background = `rgba(255, 102, 0, ${opacity})`;
+        
+        // Разные оранжевые оттенки
+        const orangeVariants = [
+            'rgba(255, 102, 0, OPACITY)',   // Основной оранжевый
+            'rgba(255, 140, 0, OPACITY)',   // Темнее
+            'rgba(255, 165, 0, OPACITY)',   // Светлее
+            'rgba(255, 69, 0, OPACITY)'     // Красноватый
+        ];
+        const color = orangeVariants[Math.floor(Math.random() * orangeVariants.length)];
+        
+        if (shape === 'blob') {
+            // Создаем blob-эффект
+            particle.style.borderRadius = '50%';
+            particle.style.background = color.replace('OPACITY', opacity);
+            particle.style.filter = `blur(${Math.random() * 2 + 1}px)`;
+        } else {
+            // Обычная круглая частица
+            particle.style.borderRadius = '50%';
+            particle.style.background = color.replace('OPACITY', opacity);
+        }
         
         document.body.appendChild(particle);
         
@@ -1366,7 +1304,8 @@ function initParticles() {
             y: posY,
             vx: velocityX,
             vy: velocityY,
-            size: size
+            size: size,
+            originalOpacity: opacity
         });
     }
     
@@ -1377,12 +1316,14 @@ function initParticles() {
             particle.x += particle.vx;
             particle.y += particle.vy;
             
-            // Отскок от границ
+            // Отскок от границ с затуханием
             if (particle.x <= 0 || particle.x >= window.innerWidth) {
-                particle.vx *= -1;
+                particle.vx *= -0.98;
+                particle.x = particle.x <= 0 ? 0 : window.innerWidth;
             }
             if (particle.y <= 0 || particle.y >= window.innerHeight) {
-                particle.vy *= -1;
+                particle.vy *= -0.98;
+                particle.y = particle.y <= 0 ? 0 : window.innerHeight;
             }
             
             // Применяем новую позицию
@@ -1395,10 +1336,19 @@ function initParticles() {
                 const dy = e.clientY - particle.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
                 
-                if (distance < 100) {
-                    const force = (100 - distance) / 100;
-                    particle.vx -= (dx / distance) * force * 0.5;
-                    particle.vy -= (dy / distance) * force * 0.5;
+                if (distance < 120) { // Увеличили радиус взаимодействия
+                    const force = (120 - distance) / 120;
+                    particle.vx -= (dx / distance) * force * 0.8;
+                    particle.vy -= (dy / distance) * force * 0.8;
+                    
+                    // Эффект свечения при приближении курсора
+                    const glowIntensity = Math.min(1, (120 - distance) / 60);
+                    particle.element.style.opacity = Math.min(1, particle.originalOpacity + glowIntensity * 0.5);
+                    particle.element.style.boxShadow = `0 0 ${glowIntensity * 10}px rgba(255, 102, 0, ${glowIntensity * 0.5})`;
+                } else {
+                    // Возвращаем исходную прозрачность
+                    particle.element.style.opacity = particle.originalOpacity;
+                    particle.element.style.boxShadow = 'none';
                 }
             });
         });
@@ -1411,8 +1361,8 @@ function initParticles() {
     // Респавн частиц при изменении размера окна
     window.addEventListener('resize', () => {
         particles.forEach(particle => {
-            particle.x = Math.random() * window.innerWidth;
-            particle.y = Math.random() * window.innerHeight;
+            if (particle.x > window.innerWidth) particle.x = window.innerWidth;
+            if (particle.y > window.innerHeight) particle.y = window.innerHeight;
         });
     });
 }
@@ -1422,14 +1372,22 @@ let ticking = false;
 function updateOnScroll() {
     if (!ticking) {
         requestAnimationFrame(() => {
-            // Параллакс уже обновляется в своем цикле
             ticking = false;
         });
         ticking = true;
     }
 }
 
-window.addEventListener('scroll', updateOnScroll, { passive: true }); 
+window.addEventListener('scroll', updateOnScroll, { passive: true });
+
+// Пауза анимации когда страница неактивна
+document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+        // Можно приостановить тяжелые анимации
+    } else {
+        // Возобновить анимации
+    }
+});
 		
 
 // Анимация лого при клике с обновлением страницы
@@ -1458,4 +1416,5 @@ if (logoLink) {
     </script>
 </body>
 </html>
+
 
