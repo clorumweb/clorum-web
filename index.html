@@ -90,6 +90,48 @@
             background: #000;
         }
 
+		/* Стили для политики конфиденциальности */
+.privacy-content {
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 40px;
+    border-radius: 10px;
+    border: 1px solid #ff6600;
+    box-shadow: 0 0 20px rgba(255, 102, 0, 0.3);
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.privacy-content h3 {
+    color: #ff6600;
+    margin: 25px 0 15px 0;
+    text-align: left;
+    font-size: 1.5rem;
+}
+
+.privacy-content p {
+    text-align: left;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.privacy-content ul {
+    margin: 10px 0 20px 20px;
+}
+
+.privacy-content li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+.privacy-section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #333;
+}
+
         .shape {
             position: absolute;
             opacity: 0.4;
@@ -637,6 +679,8 @@
                 <li><a href="#about">О сервере</a></li>
                 <li><a href="#application">Подать заявку</a></li>
                 <li><a href="#info">Информация</a></li>
+				<li><a href="#privacy">Политика</a></li>
+                <li><a href="#terms">Соглашение</a></li>
             </ul>
         </div>
     </nav>
@@ -731,6 +775,103 @@
             </div>
         </div>
     </section>
+
+
+	<!-- Добавь эту секцию перед футером -->
+<section id="privacy">
+    <div class="container">
+        <h2>Политика конфиденциальности</h2>
+        <div class="privacy-content">
+            <div class="privacy-section">
+                <h3>1. Сбор информации</h3>
+                <p>Мы собираем следующую информацию при подаче заявки:</p>
+                <ul>
+                    <li>Никнейм в Minecraft</li>
+                    <li>Telegram аккаунт</li>
+                    <li>Ответ на кодовую фразу</li>
+                    <li>Источник прихода на сервер</li>
+                </ul>
+            </div>
+
+            <div class="privacy-section">
+                <h3>2. Использование данных</h3>
+                <p>Собранные данные используются для:</p>
+                <ul>
+                    <li>Идентификации игроков на сервере</li>
+                    <li>Связи с игроками через Telegram</li>
+                    <li>Модерации и обеспечения безопасности</li>
+                    <li>Улучшения игрового опыта</li>
+                </ul>
+            </div>
+
+            <div class="privacy-section">
+                <h3>3. Защита данных</h3>
+                <p>Мы обеспечиваем защиту ваших данных:</p>
+                <ul>
+                    <li>Данные хранятся в зашифрованном виде</li>
+                    <li>Доступ имеют только администраторы</li>
+                    <li>Не передаем данные третьим лицам</li>
+                </ul>
+            </div>
+
+            <div class="privacy-section">
+                <h3>4. Ваши права</h3>
+                <p>Вы имеете право:</p>
+                <ul>
+                    <li>Запросить удаление ваших данных</li>
+                    <li>Отозвать согласие на обработку</li>
+                    <li>Получить информацию о хранимых данных</li>
+                </ul>
+            </div>
+
+            <p style="text-align: center; margin-top: 30px; color: #ff6600;">
+                <strong>Дата последнего обновления:</strong> 17.10.2025
+            </p>
+        </div>
+    </div>
+</section>
+
+
+	<!-- Добавь эту секцию после политики конфиденциальности -->
+<section id="terms">
+    <div class="container">
+        <h2>Пользовательское соглашение</h2>
+        <div class="privacy-content">
+            <div class="privacy-section">
+                <h3>1. Основные правила</h3>
+                <ul>
+                    <li>Уважайте других игроков и администрацию</li>
+                    <li>Запрещен гриферство и воровство</li>
+                    <li>Не используйте читы и запрещенные моды</li>
+                    <li>Соблюдайте правила чата</li>
+                </ul>
+            </div>
+
+            <div class="privacy-section">
+                <h3>2. Ответственность</h3>
+                <ul>
+                    <li>Игрок несет ответственность за свой аккаунт</li>
+                    <li>Администрация вправе применять санкции</li>
+                    <li>Решение администрации окончательно</li>
+                </ul>
+            </div>
+
+            <div class="privacy-section">
+                <h3>3. Технические требования</h3>
+                <ul>
+                    <li>Minecraft 1.21.4</li>
+                    <li>Fabric loader</li>
+                    <li>Установленная сборка модов</li>
+                    <li>Стабильное интернет-соединение</li>
+                </ul>
+            </div>
+
+            <p style="text-align: center; margin-top: 30px;">
+                <strong>Присоединяясь к серверу, вы соглашаетесь с этими правилами.</strong>
+            </p>
+        </div>
+    </div>
+</section>
 
     <!-- Футер -->
 <footer>
@@ -936,6 +1077,7 @@ if (logoLink) {
 </body>
 
 </html>
+
 
 
 
