@@ -19,7 +19,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-		        /* Навигация */
+        /* Навигация */
         nav {
             position: fixed;
             top: 0;
@@ -29,6 +29,49 @@
             background-color: rgba(0, 0, 0, 0.8);
             z-index: 1000;
             transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 15px 0;
+            background-color: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 5px 15px rgba(255, 102, 0, 0.2);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff6600;
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #ff6600;
         }
 
         h1 {
@@ -795,5 +838,6 @@
     </script>
 </body>
 </html>
+
 
 
