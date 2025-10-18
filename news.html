@@ -4,12 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Новости - Clorum</title>
-
-            <!-- Фавиконка -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" href="logo.png">
-    <link rel="apple-touch-icon" href="logo.png">
-    
     <style>
         * {
             margin: 0;
@@ -17,7 +11,6 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
 
         body {
             background-color: #000;
@@ -476,6 +469,20 @@
             border-top: 1px solid #ff6600;
         }
 
+        /* Анимация логотипа */
+        @keyframes logoSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .logo-spin {
+            animation: logoSpin 0.8s ease-in-out;
+        }
+
         @media (max-width: 768px) {
             .news-grid {
                 grid-template-columns: 1fr;
@@ -505,31 +512,6 @@
             
             .hexagon {
                 width: 80px;
-                height: 46px;
-            }
-            
-            .hexagon:before,
-            .hexagon:after {
-                border-left: 40px solid transparent;
-                border-right: 40px solid transparent;
-            }
-            
-            .hexagon:before {
-                border-bottom: 23px solid #ff6600;
-            }
-            
-            .hexagon:after {
-                border-top: 23px solid #ff6600;
-            }
-            
-            .diamond {
-                width: 80px;
-                height: 80px;
-            }
-            
-            .circle-1, .circle-2 {
-                width: 120px;
-                height: 120px;
             }
         }
     </style>
@@ -549,11 +531,12 @@
         <div class="abstract-shape circle circle-2"></div>
     </div>
 
-    <!-- Навигация -->
+    <!-- Навигация С ЛОГОТИПОМ -->
     <nav id="navbar">
         <div class="container">
-            <a href="index.html" class="logo">
-                <span>CLORUM</span>
+            <a href="index.html" class="logo" style="display: flex; align-items: center; text-decoration: none;">
+                <img src="logo.png" alt="Clorum" style="height: 35px; margin-right: 10px;" id="logoImg">
+                <span style="color: #ff6600; font-size: 1.8rem; font-weight: bold; letter-spacing: 2px;">CLORUM</span>
             </a>
             <ul class="nav-links">
                 <li><a href="index.html">Главная</a></li>
@@ -598,7 +581,6 @@
         const CONFIG = {
             botToken: '8367850520:AAHFsk2h74WNpuPpwlVMLxYgorScmILrgPA',
             chatId: '@clorum_gr',
-            topicId: 3,
             postsLimit: 20
         };
 
@@ -613,12 +595,7 @@
                 
                 if (posts.length === 0) {
                     container.innerHTML = `<div class="error-message">
-                        📭 Новостей пока нет. Бот еще не получил сообщения из чата.
-                        <br><br>
-                        <strong>Проверь:</strong>
-                        <br>✅ Бот добавлен в @clorum_gr как админ
-                        <br>✅ Бот имеет права "Читать сообщения"
-                        <br>✅ В чате есть сообщения в топике /3
+                        📭 Новостей пока нет. Бот еще не получил сообщения из топика новостей.
                     </div>`;
                     return;
                 }
@@ -629,11 +606,6 @@
                 console.error('Ошибка загрузки новостей:', error);
                 container.innerHTML = `<div class="error-message">
                     ❌ Ошибка загрузки: ${error.message}
-                    <br><br>
-                    <strong>Возможные причины:</strong>
-                    <br>• Бот не добавлен в чат
-                    <br>• Неправильные права бота
-                    <br>• Проблемы с интернет-соединением
                 </div>`;
             }
         }
@@ -641,7 +613,7 @@
         // Получение сообщений из Telegram через бота
         async function fetchTelegramMessages() {
             try {
-                const response = await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/getUpdates?offset=-100&limit=50`);
+                const response = await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/getUpdates?offset=-100&limit=100`);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -655,25 +627,43 @@
                 
                 console.log('Telegram response:', data);
                 
-                // Фильтруем сообщения из нужного чата
+                // Фильтруем сообщения - ТОЛЬКО из топика /3
                 const messages = data.result
-                    .filter(update => update.message && update.message.chat)
                     .filter(update => {
+                        // Проверяем что это сообщение из нужного чата
+                        if (!update.message || !update.message.chat) return false;
+                        
                         const chat = update.message.chat;
-                        return chat.username === 'clorum_gr';
+                        if (chat.username !== 'clorum_gr') return false;
+                        
+                        // Проверяем что сообщение из топика /3 (message_thread_id = 3)
+                        // В чатах-форумах message_thread_id указывает топик
+                        return update.message.message_thread_id === 3;
                     })
                     .map(update => {
                         const msg = update.message;
+                        const content = msg.text || msg.caption || '';
+                        
                         return {
                             id: msg.message_id,
-                            title: extractTitle(msg.text || msg.caption || ''),
-                            content: msg.text || msg.caption || 'Новое сообщение',
+                            title: extractTitle(content),
+                            content: content,
                             date: formatDate(msg.date * 1000),
                             messageId: msg.message_id,
-                            author: msg.from?.first_name || 'Администрация'
+                            author: msg.from?.first_name || 'Администрация',
+                            threadId: msg.message_thread_id
                         };
                     })
-                    .filter(post => post.content && post.content.length > 10)
+                    // Фильтруем пустые и служебные сообщения
+                    .filter(post => {
+                        const content = post.content.toLowerCase();
+                        return (
+                            content.length > 20 && // Минимум 20 символов
+                            !content.includes('новое сообщение') && // Убираем заглушки
+                            !content.includes('† ‹/› #') && // Убираем странные символы
+                            !content.trim().match(/^[^\wа-я]*(новость|сообщение)[^\wа-я]*$/i) // Убираем "Новость", "Сообщение" без контента
+                        );
+                    })
                     .slice(0, CONFIG.postsLimit);
                 
                 return messages;
@@ -688,8 +678,15 @@
         function extractTitle(text) {
             if (!text) return 'Новость';
             
-            const firstLine = text.split('\n')[0];
-            return firstLine.length > 50 ? firstLine.substring(0, 50) + '...' : firstLine;
+            // Убираем служебные символы и берем первую осмысленную строку
+            const lines = text.split('\n')
+                .map(line => line.trim())
+                .filter(line => line.length > 0 && !line.match(/^[^\wа-я]*$/));
+            
+            if (lines.length === 0) return 'Новость';
+            
+            const firstLine = lines[0];
+            return firstLine.length > 60 ? firstLine.substring(0, 60) + '...' : firstLine;
         }
 
         // Форматирование даты
@@ -697,7 +694,9 @@
             return new Date(timestamp).toLocaleDateString('ru-RU', {
                 day: '2-digit',
                 month: '2-digit',
-                year: 'numeric'
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
             });
         }
 
@@ -706,12 +705,12 @@
             const container = document.getElementById('newsContainer');
             
             if (!posts || posts.length === 0) {
-                container.innerHTML = '<div class="error-message">Новостей пока нет</div>';
+                container.innerHTML = '<div class="error-message">Новостей пока нет в топике /3</div>';
                 return;
             }
 
             container.innerHTML = posts.map(post => {
-                const telegramLink = `https://t.me/c/${CONFIG.chatId.replace('@', '').replace('-', '')}/${post.messageId || post.id}`;
+                const telegramLink = `https://t.me/c/1774143195/${post.messageId}`;
                 const shortContent = post.content.length > 150 ? 
                     post.content.substring(0, 150) + '...' : post.content;
                 const isLong = post.content.length > 150;
@@ -752,6 +751,27 @@
             });
         }
 
+        // Анимация логотипа при клике
+        function initLogoAnimation() {
+            const logoLink = document.querySelector('.logo');
+            const logoImg = document.getElementById('logoImg');
+            
+            if (logoLink && logoImg) {
+                logoLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Запускаем анимацию
+                    logoImg.classList.add('logo-spin');
+                    
+                    // После завершения анимации переходим на главную
+                    setTimeout(() => {
+                        logoImg.classList.remove('logo-spin');
+                        window.location.href = 'index.html';
+                    }, 800);
+                });
+            }
+        }
+
         // Периодическое обновление
         function startAutoRefresh() {
             setInterval(() => {
@@ -763,6 +783,7 @@
         // Запуск при загрузке
         document.addEventListener('DOMContentLoaded', function() {
             initNavigation();
+            initLogoAnimation();
             loadNews();
             startAutoRefresh();
             
