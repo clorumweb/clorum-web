@@ -581,6 +581,7 @@
         const CONFIG = {
             botToken: '8367850520:AAHFsk2h74WNpuPpwlVMLxYgorScmILrgPA',
             chatId: '@clorum_gr',
+            topicId: 3, // ТОЛЬКО топик /3
             postsLimit: 20
         };
 
@@ -589,13 +590,18 @@
             const container = document.getElementById('newsContainer');
             
             try {
-                container.innerHTML = '<div class="loading">🔄 Загружаем свежие новости из Telegram...</div>';
+                container.innerHTML = '<div class="loading">🔄 Загружаем новости из топика /3...</div>';
                 
                 let posts = await fetchTelegramMessages();
                 
                 if (posts.length === 0) {
                     container.innerHTML = `<div class="error-message">
-                        📭 Новостей пока нет. Бот еще не получил сообщения из топика новостей.
+                        📭 В топике /3 пока нет новостей.
+                        <br><br>
+                        <strong>Что проверить:</strong>
+                        <br>• Сообщения должны быть в топике "НОВОСТИ" (/3)
+                        <br>• Бот должен быть админом в чате
+                        <br>• Сообщения должны быть длиннее 10 символов
                     </div>`;
                     return;
                 }
@@ -605,15 +611,60 @@
             } catch (error) {
                 console.error('Ошибка загрузки новостей:', error);
                 container.innerHTML = `<div class="error-message">
-                    ❌ Ошибка загрузки: ${error.message}
+                    ❌ Ошибка: ${error.message}
+                    <br><br>
+                    <button onclick="showAllMessages()" class="btn">Показать все сообщения из чата</button>
                 </div>`;
+            }
+        }
+
+        // Показать все сообщения (для дебага)
+        async function showAllMessages() {
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/getUpdates?limit=50`);
+                const data = await response.json();
+                
+                if (!data.ok) {
+                    throw new Error(data.description);
+                }
+                
+                const allMessages = data.result
+                    .filter(update => update.message && update.message.chat)
+                    .filter(update => update.message.chat.username === 'clorum_gr')
+                    .map(update => {
+                        const msg = update.message;
+                        return {
+                            id: msg.message_id,
+                            title: `Топик ${msg.message_thread_id || 'без топика'}: ${(msg.text || msg.caption || '').substring(0, 30)}...`,
+                            content: msg.text || msg.caption || 'Нет текста',
+                            date: formatDate(msg.date * 1000),
+                            messageId: msg.message_id,
+                            author: msg.from?.first_name || 'Неизвестно',
+                            threadId: msg.message_thread_id,
+                            isFromTopic3: msg.message_thread_id === 3
+                        };
+                    });
+                
+                displayNews(allMessages);
+                
+                document.getElementById('newsContainer').innerHTML = `
+                    <div class="error-message">
+                        🔍 <strong>ВСЕ СООБЩЕНИЯ ИЗ ЧАТА</strong><br>
+                        Зеленые карточки - из топика /3, серые - из других топиков
+                        <br>Всего сообщений: ${allMessages.length}
+                    </div>
+                    ${document.getElementById('newsContainer').innerHTML}
+                `;
+                
+            } catch (error) {
+                alert('Ошибка: ' + error.message);
             }
         }
 
         // Получение сообщений из Telegram через бота
         async function fetchTelegramMessages() {
             try {
-                const response = await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/getUpdates?offset=-100&limit=100`);
+                const response = await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/getUpdates?limit=100`);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -627,18 +678,16 @@
                 
                 console.log('Telegram response:', data);
                 
-                // Фильтруем сообщения - ТОЛЬКО из топика /3
+                // ФИЛЬТРУЕМ ТОЛЬКО ПО ТОПИКУ /3
                 const messages = data.result
                     .filter(update => {
-                        // Проверяем что это сообщение из нужного чата
                         if (!update.message || !update.message.chat) return false;
                         
                         const chat = update.message.chat;
                         if (chat.username !== 'clorum_gr') return false;
                         
-                        // Проверяем что сообщение из топика /3 (message_thread_id = 3)
-                        // В чатах-форумах message_thread_id указывает топик
-                        return update.message.message_thread_id === 3;
+                        // ВАЖНО: проверяем что сообщение ИМЕННО из топика /3
+                        return update.message.message_thread_id === CONFIG.topicId;
                     })
                     .map(update => {
                         const msg = update.message;
@@ -654,18 +703,18 @@
                             threadId: msg.message_thread_id
                         };
                     })
-                    // Фильтруем пустые и служебные сообщения
+                    // Фильтруем пустые и короткие сообщения
                     .filter(post => {
-                        const content = post.content.toLowerCase();
+                        const content = post.content.trim();
                         return (
-                            content.length > 20 && // Минимум 20 символов
-                            !content.includes('новое сообщение') && // Убираем заглушки
-                            !content.includes('† ‹/› #') && // Убираем странные символы
-                            !content.trim().match(/^[^\wа-я]*(новость|сообщение)[^\wа-я]*$/i) // Убираем "Новость", "Сообщение" без контента
+                            content.length > 10 && // Минимум 10 символов
+                            !content.toLowerCase().includes('новое сообщение') &&
+                            !content.match(/^[^\wа-я]*$/) // Не только спецсимволы
                         );
                     })
                     .slice(0, CONFIG.postsLimit);
                 
+                console.log(`Найдено сообщений из топика /3: ${messages.length}`);
                 return messages;
                 
             } catch (error) {
@@ -678,10 +727,9 @@
         function extractTitle(text) {
             if (!text) return 'Новость';
             
-            // Убираем служебные символы и берем первую осмысленную строку
             const lines = text.split('\n')
                 .map(line => line.trim())
-                .filter(line => line.length > 0 && !line.match(/^[^\wа-я]*$/));
+                .filter(line => line.length > 0);
             
             if (lines.length === 0) return 'Новость';
             
@@ -705,19 +753,25 @@
             const container = document.getElementById('newsContainer');
             
             if (!posts || posts.length === 0) {
-                container.innerHTML = '<div class="error-message">Новостей пока нет в топике /3</div>';
+                container.innerHTML = '<div class="error-message">Сообщений не найдено</div>';
                 return;
             }
 
             container.innerHTML = posts.map(post => {
-                const telegramLink = `https://t.me/c/1774143195/${post.messageId}`;
+                const telegramLink = `https://t.me/clorum_gr/${post.messageId}`;
                 const shortContent = post.content.length > 150 ? 
                     post.content.substring(0, 150) + '...' : post.content;
                 const isLong = post.content.length > 150;
                 
+                // Подсвечиваем сообщения из топика /3
+                const isFromTopic3 = post.threadId === 3;
+                const cardStyle = isFromTopic3 ? '' : 'style="border-left: 4px solid #666; opacity: 0.7;"';
+                const badge = isFromTopic3 ? '' : '<div style="color: #ff6600; font-size: 0.8rem; margin-bottom: 5px;">⚠️ Из другого топика</div>';
+                
                 return `
-                    <div class="news-card">
-                        <div class="news-date">${post.date}</div>
+                    <div class="news-card" ${cardStyle}>
+                        ${badge}
+                        <div class="news-date">${post.date} ${post.threadId ? `(Топик ${post.threadId})` : ''}</div>
                         <h3 class="news-title">${post.title}</h3>
                         <div class="news-content">
                             ${shortContent}
@@ -777,7 +831,7 @@
             setInterval(() => {
                 console.log('🔄 Автообновление новостей...');
                 loadNews();
-            }, 5 * 60 * 1000);
+            }, 2 * 60 * 1000);
         }
 
         // Запуск при загрузке
