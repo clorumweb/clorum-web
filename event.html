@@ -89,6 +89,22 @@
             animation: floatRectangle 25s infinite ease-in-out reverse;
         }
 
+
+		        /* ЛОГОТИП ЗА ЗАГОЛОВКОМ КАК В INDEX.HTML */
+        .news-header h1::after {
+            content: '';
+            background: url('logo.png') no-repeat center center;
+            background-size: contain;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
         .hexagon {
             background: #ff6600;
             position: relative;
@@ -480,17 +496,17 @@
         <div class="abstract-shape circle circle-2"></div>
     </div>
 
-    <!-- Навигация -->
+<!-- Навигация С ЛОГОТИПОМ -->
     <nav id="navbar">
         <div class="container">
             <a href="index.html" class="logo" style="display: flex; align-items: center; text-decoration: none;">
-                <img src="logo.png" alt="Clorum" style="height: 35px; margin-right: 10px;">
+                <img src="logo.png" alt="Clorum" style="height: 35px; margin-right: 10px;" id="logoImg">
                 <span style="color: #ff6600; font-size: 1.8rem; font-weight: bold; letter-spacing: 2px;">CLORUM</span>
             </a>
             <ul class="nav-links">
                 <li><a href="index.html">Главная</a></li>
                 <li><a href="news.html">Новости</a></li>
-                <li><a href="Event.html">Ивенты</a></li>
+                <li><a href="Event.html"style="color: #ff6600;">Ивенты</a></li>
                 <li><a href="stats.html">Статистика сервера</a></li>
                 <li><a href="https://t.me/ClorumSupportBot" target="_blank">Тех.поддержка</a></li>
             </ul>
@@ -663,4 +679,5 @@ setTimeout(() => {
         });
     </script>
 </body>
+
 </html>
