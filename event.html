@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ивенты - Clorum</title>
     
+    <!-- Иконка сайта -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+    
     <!-- SEO Мета-теги -->
     <meta name="description" content="Ивенты на сервере Clorum - участвуйте в событиях и получайте награды!">
     <meta name="keywords" content="ивенты clorum, события майнкрафт, ивенты сервера">
@@ -89,9 +94,12 @@
             animation: floatRectangle 25s infinite ease-in-out reverse;
         }
 
+        /* ЛОГОТИП ЗА ЗАГОЛОВКОМ - ИСПРАВЛЕННЫЙ */
+        h2 {
+            position: relative;
+        }
 
-		        /* ЛОГОТИП ЗА ЗАГОЛОВКОМ КАК В INDEX.HTML */
-        .news-header h1::after {
+        h2::before {
             content: '';
             background: url('logo.png') no-repeat center center;
             background-size: contain;
@@ -478,6 +486,12 @@
             .hexagon:after { border-top: 23px solid #ff6600; }
             .diamond { width: 80px; height: 80px; }
             .circle-1, .circle-2 { width: 120px; height: 120px; }
+            
+            /* Адаптивность для логотипа за заголовком */
+            h2::before {
+                width: 200px;
+                height: 200px;
+            }
         }
     </style>
 </head>
@@ -496,7 +510,7 @@
         <div class="abstract-shape circle circle-2"></div>
     </div>
 
-<!-- Навигация С ЛОГОТИПОМ -->
+    <!-- Навигация -->
     <nav id="navbar">
         <div class="container">
             <a href="index.html" class="logo" style="display: flex; align-items: center; text-decoration: none;">
@@ -506,7 +520,7 @@
             <ul class="nav-links">
                 <li><a href="index.html">Главная</a></li>
                 <li><a href="news.html">Новости</a></li>
-                <li><a href="Event.html"style="color: #ff6600;">Ивенты</a></li>
+                <li><a href="Event.html" style="color: #ff6600;">Ивенты</a></li>
                 <li><a href="stats.html">Статистика сервера</a></li>
                 <li><a href="https://t.me/ClorumSupportBot" target="_blank">Тех.поддержка</a></li>
             </ul>
@@ -559,6 +573,18 @@
                     </div>
                     -->
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Дополнительная секция чтобы заполнить пустое пространство -->
+    <section id="more-events" style="min-height: 60vh; padding: 60px 20px;">
+        <div class="container">
+            <div class="text-block">
+                <h3>🚀 Больше ивентов в разработке</h3>
+                <p>Мы постоянно работаем над новыми событиями для нашего сообщества</p>
+                <p>Следите за обновлениями в нашем телеграм-канале</p>
+                <a href="https://t.me/clorum_gr" target="_blank" class="btn">📢 Наш телеграм чат</a>
             </div>
         </div>
     </section>
@@ -629,37 +655,6 @@
             
             handleScroll();
             window.addEventListener('scroll', handleScroll);
-			
-			// Принудительное выравнивание всех текстов
-setTimeout(() => {
-    // Выравнивание в футере
-    const footerTexts = document.querySelectorAll('footer p');
-    footerTexts.forEach(p => {
-        p.style.textAlign = 'center';
-        p.style.margin = '15px auto';
-        p.style.width = '100%';
-        p.style.display = 'block';
-    });
-    
-    // Выравнивание текста над формой
-    const formText = document.querySelector('#application .container > p');
-    if (formText) {
-        formText.style.textAlign = 'center';
-        formText.style.margin = '0 auto 30px auto';
-        formText.style.width = '100%';
-        formText.style.display = 'block';
-    }
-    
-    // Выравнивание текста в информации
-    const infoText = document.querySelector('#info .container > p');
-    if (infoText) {
-        infoText.style.textAlign = 'center';
-        infoText.style.margin = '0 auto 30px auto';
-        infoText.style.width = '100%';
-        infoText.style.display = 'block';
-    }
-}, 100);
-			
             
             // Плавная прокрутка
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -679,5 +674,4 @@ setTimeout(() => {
         });
     </script>
 </body>
-
 </html>
