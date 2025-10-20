@@ -116,7 +116,7 @@
             animation: logoSpin 0.8s ease-in-out;
         }
 
-        /* Упрощенный абстрактный фон */
+        /* Абстрактный фон с анимациями */
         .background-shapes {
             position: fixed;
             top: 0;
@@ -128,11 +128,12 @@
             background: #000;
         }
 
-        /* Геометрические фигуры (упрощенные) */
+        /* Геометрические фигуры */
         .abstract-shape {
             position: absolute;
-            opacity: 0.1;
+            opacity: 0.15;
             filter: blur(8px);
+            transition: transform 0.5s ease;
         }
 
         /* Треугольники */
@@ -148,6 +149,7 @@
             border-color: transparent transparent #ff6600 transparent;
             top: 10%;
             left: 5%;
+            animation: floatTriangle 25s infinite ease-in-out;
         }
 
         .triangle-2 {
@@ -155,6 +157,7 @@
             border-color: #ff6600 transparent transparent transparent;
             top: 60%;
             right: 8%;
+            animation: floatTriangle 30s infinite ease-in-out reverse;
         }
 
         /* Прямоугольники */
@@ -168,6 +171,7 @@
             height: 100px;
             top: 15%;
             right: 15%;
+            animation: floatRectangle 20s infinite ease-in-out;
         }
 
         .rectangle-2 {
@@ -175,6 +179,7 @@
             height: 80px;
             bottom: 20%;
             left: 10%;
+            animation: floatRectangle 25s infinite ease-in-out reverse;
         }
 
         /* Шестиугольники */
@@ -207,11 +212,13 @@
         .hexagon-1 {
             top: 25%;
             left: 20%;
+            animation: floatHexagon 35s infinite ease-in-out;
         }
 
         .hexagon-2 {
             top: 70%;
             right: 25%;
+            animation: floatHexagon 40s infinite ease-in-out reverse;
         }
 
         /* Ромбы */
@@ -225,11 +232,13 @@
         .diamond-1 {
             top: 40%;
             left: 8%;
+            animation: floatDiamond 30s infinite ease-in-out;
         }
 
         .diamond-2 {
             top: 80%;
             right: 12%;
+            animation: floatDiamond 35s infinite ease-in-out reverse;
         }
 
         /* Круги */
@@ -243,6 +252,7 @@
             height: 200px;
             bottom: 10%;
             left: 20%;
+            animation: floatCircle 40s infinite ease-in-out;
         }
 
         .circle-2 {
@@ -250,48 +260,71 @@
             height: 150px;
             top: 10%;
             right: 25%;
+            animation: floatCircle 45s infinite ease-in-out reverse;
         }
 
-        /* Стили для политики конфиденциальности */
-        .privacy-content {
-            background-color: rgba(0, 0, 0, 0.9);
-            padding: 40px;
-            border-radius: 10px;
-            border: 1px solid #ff6600;
-            box-shadow: 0 0 20px rgba(255, 102, 0, 0.3);
-            max-width: 900px;
-            width: 100%;
-            margin: 0 auto;
-            text-align: left;
+        /* Анимации для фигур */
+        @keyframes floatTriangle {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            33% {
+                transform: translateY(-40px) rotate(120deg);
+            }
+            66% {
+                transform: translateY(30px) rotate(240deg);
+            }
         }
 
-        .privacy-content h3 {
-            color: #ff6600;
-            margin: 25px 0 15px 0;
-            text-align: left;
-            font-size: 1.5rem;
+        @keyframes floatRectangle {
+            0%, 100% {
+                transform: translateY(0) rotate(45deg) scale(1);
+            }
+            50% {
+                transform: translateY(-25px) rotate(45deg) scale(1.1);
+            }
         }
 
-        .privacy-content p {
-            text-align: left;
-            margin-bottom: 15px;
-            font-size: 1rem;
-            line-height: 1.6;
+        @keyframes floatHexagon {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-30px) rotate(90deg);
+            }
+            50% {
+                transform: translateY(20px) rotate(180deg);
+            }
+            75% {
+                transform: translateY(-15px) rotate(270deg);
+            }
         }
 
-        .privacy-content ul {
-            margin: 10px 0 20px 20px;
+        @keyframes floatDiamond {
+            0%, 100% {
+                transform: translateX(0) rotate(45deg);
+            }
+            33% {
+                transform: translateX(-40px) rotate(135deg);
+            }
+            66% {
+                transform: translateX(40px) rotate(225deg);
+            }
         }
 
-        .privacy-content li {
-            margin-bottom: 8px;
-            line-height: 1.6;
-        }
-
-        .privacy-section {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #333;
+        @keyframes floatCircle {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(30px, -20px) scale(1.1);
+            }
+            50% {
+                transform: translate(-20px, 30px) scale(0.9);
+            }
+            75% {
+                transform: translate(25px, 25px) scale(1.05);
+            }
         }
 
         .social-links {
@@ -715,7 +748,7 @@
 
             /* Адаптивность для абстрактных фигур */
             .abstract-shape {
-                opacity: 0.05;
+                opacity: 0.1;
             }
             
             .triangle-1, .triangle-2 {
@@ -759,7 +792,7 @@
     </style>
 </head>
 <body>
-    <!-- Упрощенный абстрактный фон -->
+    <!-- Абстрактный фон -->
     <div class="background-shapes">
         <div class="abstract-shape triangle triangle-1"></div>
         <div class="abstract-shape triangle triangle-2"></div>
@@ -936,7 +969,7 @@
             
             // Функция для проверки видимости элемента
             function isElementInViewport(el) {
-                const rect = el.getoundingClientRect();
+                const rect = el.getBoundingClientRect();
                 return (
                     rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8 &&
                     rect.bottom >= 0
