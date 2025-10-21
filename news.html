@@ -29,7 +29,7 @@
             padding: 0 20px;
         }
 
-        /* НОВЫЙ АБСТРАКТНЫЙ ФОН - КАК В INDEX.HTML */
+        /* АБСТРАКТНЫЙ ФОН */
         .background-shapes {
             position: fixed;
             top: 0;
@@ -48,7 +48,6 @@
             transition: transform 0.5s ease;
         }
 
-        /* Треугольники */
         .triangle {
             width: 0;
             height: 0;
@@ -72,138 +71,10 @@
             animation: floatTriangle 30s infinite ease-in-out reverse;
         }
 
-        /* Прямоугольники */
         .rectangle {
             background: linear-gradient(45deg, #ff6600, #ff8c00);
             transform: rotate(45deg);
         }
-
-
-        /* Мобильная навигация */
-.mobile-menu-btn {
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 30px;
-    height: 25px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-}
-
-.mobile-menu-btn span {
-    display: block;
-    height: 3px;
-    width: 100%;
-    background-color: #ff6600;
-    border-radius: 3px;
-    transition: all 0.3s ease;
-}
-
-.mobile-menu {
-    display: none;
-    position: fixed;
-    top: 80px;
-    left: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.95);
-    padding: 20px;
-    z-index: 999;
-    border-top: 1px solid #ff6600;
-    box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
-}
-
-.mobile-menu.active {
-    display: block;
-}
-
-.mobile-nav-links {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.mobile-nav-links li {
-    margin: 0;
-}
-
-.mobile-nav-links a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1.1rem;
-    padding: 12px 15px;
-    display: block;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-    border: 1px solid transparent;
-}
-
-.mobile-nav-links a:hover,
-.mobile-nav-links a.active {
-    color: #ff6600;
-    border-color: #ff6600;
-    background: rgba(255, 102, 0, 0.1);
-}
-
-/* Адаптивность для мобильных */
-@media (max-width: 768px) {
-    .nav-links {
-        display: none !important;
-    }
-    
-    .mobile-menu-btn {
-        display: flex;
-    }
-    
-    /* Улучшения для мобильных */
-    .container {
-        padding: 0 15px;
-    }
-    
-    h1 {
-        font-size: 2.2rem !important;
-    }
-    
-    h2 {
-        font-size: 1.8rem !important;
-    }
-    
-    p {
-        font-size: 1rem !important;
-    }
-    
-    .btn {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
-    
-    /* Улучшение логотипа на мобильных */
-    .logo span {
-        font-size: 1.5rem !important;
-    }
-    
-    .logo img {
-        height: 30px !important;
-        margin-right: 8px !important;
-    }
-}
-
-@media (max-width: 480px) {
-    h1 {
-        font-size: 1.8rem !important;
-    }
-    
-    h2 {
-        font-size: 1.5rem !important;
-    }
-    
-    .container {
-        padding: 0 10px;
-    }
-}
 
         .rectangle-1 {
             width: 300px;
@@ -221,7 +92,6 @@
             animation: floatRectangle 25s infinite ease-in-out reverse;
         }
 
-        /* Шестиугольники */
         .hexagon {
             background: #ff6600;
             position: relative;
@@ -260,7 +130,6 @@
             animation: floatHexagon 40s infinite ease-in-out reverse;
         }
 
-        /* Ромбы */
         .diamond {
             width: 120px;
             height: 120px;
@@ -280,7 +149,6 @@
             animation: floatDiamond 35s infinite ease-in-out reverse;
         }
 
-        /* Круги */
         .circle {
             border-radius: 50%;
             background: radial-gradient(circle, rgba(255,102,0,0.8) 0%, rgba(255,102,0,0.2) 70%);
@@ -302,68 +170,35 @@
             animation: floatCircle 45s infinite ease-in-out reverse;
         }
 
-        /* Анимации для фигур */
         @keyframes floatTriangle {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            33% {
-                transform: translateY(-40px) rotate(120deg);
-            }
-            66% {
-                transform: translateY(30px) rotate(240deg);
-            }
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-40px) rotate(120deg); }
+            66% { transform: translateY(30px) rotate(240deg); }
         }
 
         @keyframes floatRectangle {
-            0%, 100% {
-                transform: translateY(0) rotate(45deg) scale(1);
-            }
-            50% {
-                transform: translateY(-25px) rotate(45deg) scale(1.1);
-            }
+            0%, 100% { transform: translateY(0) rotate(45deg) scale(1); }
+            50% { transform: translateY(-25px) rotate(45deg) scale(1.1); }
         }
 
         @keyframes floatHexagon {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            25% {
-                transform: translateY(-30px) rotate(90deg);
-            }
-            50% {
-                transform: translateY(20px) rotate(180deg);
-            }
-            75% {
-                transform: translateY(-15px) rotate(270deg);
-            }
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-30px) rotate(90deg); }
+            50% { transform: translateY(20px) rotate(180deg); }
+            75% { transform: translateY(-15px) rotate(270deg); }
         }
 
         @keyframes floatDiamond {
-            0%, 100% {
-                transform: translateX(0) rotate(45deg);
-            }
-            33% {
-                transform: translateX(-40px) rotate(135deg);
-            }
-            66% {
-                transform: translateX(40px) rotate(225deg);
-            }
+            0%, 100% { transform: translateX(0) rotate(45deg); }
+            33% { transform: translateX(-40px) rotate(135deg); }
+            66% { transform: translateX(40px) rotate(225deg); }
         }
 
         @keyframes floatCircle {
-            0%, 100% {
-                transform: translate(0, 0) scale(1);
-            }
-            25% {
-                transform: translate(30px, -20px) scale(1.1);
-            }
-            50% {
-                transform: translate(-20px, 30px) scale(0.9);
-            }
-            75% {
-                transform: translate(25px, 25px) scale(1.05);
-            }
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -20px) scale(1.1); }
+            50% { transform: translate(-20px, 30px) scale(0.9); }
+            75% { transform: translate(25px, 25px) scale(1.05); }
         }
 
         /* Навигация */
@@ -421,6 +256,76 @@
             color: #ff6600;
         }
 
+        /* Мобильная навигация */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 25px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: #ff6600;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            padding: 20px;
+            z-index: 999;
+            border-top: 1px solid #ff6600;
+            box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .mobile-nav-links li {
+            margin: 0;
+        }
+
+        .mobile-nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 12px 15px;
+            display: block;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            text-align: center;
+        }
+
+        .mobile-nav-links a:hover,
+        .mobile-nav-links a.active {
+            color: #ff6600;
+            border-color: #ff6600;
+            background: rgba(255, 102, 0, 0.1);
+        }
+
         /* Основной контент новостей */
         .news-section {
             padding: 120px 20px 80px;
@@ -440,7 +345,6 @@
             position: relative;
         }
 
-        /* ЛОГОТИП ЗА ЗАГОЛОВКОМ КАК В INDEX.HTML */
         .news-header h1::after {
             content: '';
             background: url('logo.png') no-repeat center center;
@@ -549,7 +453,7 @@
             color: #ff8c00;
         }
 
-        /* Модальное окно для полного текста */
+        /* Модальное окно */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -622,7 +526,27 @@
             font-weight: 600;
         }
 
-        /* Загрузка и ошибки */
+        /* Кнопки */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: transparent;
+            color: #ff6600;
+            border: 2px solid #ff6600;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #ff6600;
+            color: #000;
+        }
+
         .loading {
             text-align: center;
             padding: 40px;
@@ -647,26 +571,6 @@
             border-radius: 10px;
         }
 
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background-color: transparent;
-            color: #ff6600;
-            border: 2px solid #ff6600;
-            text-decoration: none;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 10px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background-color: #ff6600;
-            color: #000;
-        }
-
         /* Футер */
         footer {
             background-color: #000;
@@ -677,25 +581,26 @@
 
         /* Анимация логотипа */
         @keyframes logoSpin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .logo-spin {
             animation: logoSpin 0.8s ease-in-out;
         }
 
+        /* Адаптивность */
         @media (max-width: 768px) {
             .news-grid {
                 grid-template-columns: 1fr;
             }
             
             .nav-links {
-                display: none;
+                display: none !important;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
             }
             
             .news-header h1 {
@@ -707,7 +612,6 @@
                 padding: 20px;
             }
 
-            /* Адаптивность для абстрактных фигур */
             .abstract-shape {
                 opacity: 0.1;
             }
@@ -724,11 +628,60 @@
             .hexagon {
                 width: 80px;
             }
+
+            /* Улучшения для мобильных */
+            .container {
+                padding: 0 15px;
+            }
+            
+            .news-header h1 {
+                font-size: 2rem !important;
+            }
+            
+            .news-title {
+                font-size: 1.1rem;
+            }
+            
+            .news-content {
+                font-size: 0.9rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .logo span {
+                font-size: 1.5rem !important;
+            }
+            
+            .logo img {
+                height: 30px !important;
+                margin-right: 8px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .news-header h1 {
+                font-size: 1.8rem !important;
+            }
+            
+            .container {
+                padding: 0 10px;
+            }
+            
+            .news-section {
+                padding: 100px 15px 60px;
+            }
+            
+            .news-card {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- АБСТРАКТНЫЙ ФОН КАК В INDEX.HTML -->
+    <!-- АБСТРАКТНЫЙ ФОН -->
     <div class="background-shapes">
         <div class="abstract-shape triangle triangle-1"></div>
         <div class="abstract-shape triangle triangle-2"></div>
@@ -742,44 +695,44 @@
         <div class="abstract-shape circle circle-2"></div>
     </div>
 
-<!-- Навигация -->
-<nav id="navbar">
-    <div class="container">
-        <a href="index.html" class="logo" style="display: flex; align-items: center; text-decoration: none;">
-            <img src="logo.png" alt="Clorum" style="height: 35px; margin-right: 10px;" id="logoImg">
-            <span style="color: #ff6600; font-size: 1.8rem; font-weight: bold; letter-spacing: 2px;">CLORUM</span>
-        </a>
-        
-        <!-- Десктопная навигация -->
-        <ul class="nav-links">
+    <!-- Навигация -->
+    <nav id="navbar">
+        <div class="container">
+            <a href="index.html" class="logo" style="display: flex; align-items: center; text-decoration: none;">
+                <img src="logo.png" alt="Clorum" style="height: 35px; margin-right: 10px;" id="logoImg">
+                <span style="color: #ff6600; font-size: 1.8rem; font-weight: bold; letter-spacing: 2px;">CLORUM</span>
+            </a>
+            
+            <!-- Десктопная навигация -->
+            <ul class="nav-links">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="news.html" style="color: #ff6600;">Новости</a></li>
+                <li><a href="stats.html">Статистика</a></li>
+                <li><a href="event.html">Ивенты</a></li>
+                <li><a href="https://t.me/ClorumSupportBot" target="_blank">Поддержка</a></li>
+            </ul>
+            
+            <!-- Мобильная кнопка меню -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Мобильное меню -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul class="mobile-nav-links">
             <li><a href="index.html">Главная</a></li>
-            <li><a href="news.html">Новости</a></li>
+            <li><a href="news.html" class="active">Новости</a></li>
             <li><a href="stats.html">Статистика</a></li>
             <li><a href="event.html">Ивенты</a></li>
             <li><a href="https://t.me/ClorumSupportBot" target="_blank">Поддержка</a></li>
         </ul>
-        
-        <!-- Мобильная кнопка меню -->
-        <button class="mobile-menu-btn" id="mobileMenuBtn">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
     </div>
-</nav>
 
-<!-- Мобильное меню -->
-<div class="mobile-menu" id="mobileMenu">
-    <ul class="mobile-nav-links">
-        <li><a href="index.html">Главная</a></li>
-        <li><a href="news.html">Новости</a></li>
-        <li><a href="stats.html">Статистика</a></li>
-        <li><a href="event.html">Ивенты</a></li>
-        <li><a href="https://t.me/ClorumSupportBot" target="_blank">Поддержка</a></li>
-    </ul>
-</div>
-
-    <!-- Модальное окно для полного текста -->
+    <!-- Модальное окно -->
     <div class="modal-overlay" id="newsModal">
         <div class="modal-content">
             <button class="modal-close" id="modalClose">×</button>
@@ -829,7 +782,63 @@
 
         let currentNews = [];
 
-        // Основная функция загрузки новостей
+        // Мобильное меню
+        function initMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    mobileMenu.classList.toggle('active');
+                    const spans = this.querySelectorAll('span');
+                    if (mobileMenu.classList.contains('active')) {
+                        spans[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
+                        spans[1].style.opacity = '0';
+                        spans[2].style.transform = 'rotate(-45deg) translate(6px, -6px)';
+                    } else {
+                        spans[0].style.transform = 'none';
+                        spans[1].style.opacity = '1';
+                        spans[2].style.transform = 'none';
+                    }
+                });
+                
+                const mobileLinks = mobileMenu.querySelectorAll('a');
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.remove('active');
+                        const spans = mobileMenuBtn.querySelectorAll('span');
+                        spans[0].style.transform = 'none';
+                        spans[1].style.opacity = '1';
+                        spans[2].style.transform = 'none';
+                    });
+                });
+                
+                document.addEventListener('click', function(e) {
+                    if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                        mobileMenu.classList.remove('active');
+                        const spans = mobileMenuBtn.querySelectorAll('span');
+                        spans[0].style.transform = 'none';
+                        spans[1].style.opacity = '1';
+                        spans[2].style.transform = 'none';
+                    }
+                });
+            }
+        }
+
+        // Навигация при прокрутке
+        function initNavigation() {
+            const nav = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+        }
+
+        // Загрузка новостей
         async function loadNews() {
             const container = document.getElementById('newsContainer');
             
@@ -852,74 +861,12 @@
                 console.error('Ошибка загрузки новостей:', error);
                 container.innerHTML = `<div class="error-message">
                     ❌ Ошибка: ${error.message}
-                    <br><br>
-                    <strong>Попробуй:</strong>
-                    <br>• Проверить что бот добавлен в чат
-                    <br>• Проверить права бота
-                    <br>• Подождать пару минут
                 </div>`;
             }
         }
 
-
-        // Мобильное меню
-function initMobileMenu() {
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    
-    if (mobileMenuBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', function() {
-            mobileMenu.classList.toggle('active');
-            // Анимация кнопки
-            const spans = this.querySelectorAll('span');
-            if (mobileMenu.classList.contains('active')) {
-                spans[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
-                spans[1].style.opacity = '0';
-                spans[2].style.transform = 'rotate(-45deg) translate(6px, -6px)';
-            } else {
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
-            }
-        });
-        
-        // Закрытие меню при клике на ссылку
-        const mobileLinks = mobileMenu.querySelectorAll('a');
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
-                // Сброс анимации кнопки
-                const spans = mobileMenuBtn.querySelectorAll('span');
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
-            });
-        });
-        
-        // Закрытие меню при клике вне его
-        document.addEventListener('click', function(e) {
-            if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                mobileMenu.classList.remove('active');
-                // Сброс анимации кнопки
-                const spans = mobileMenuBtn.querySelectorAll('span');
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
-            }
-        });
-    }
-}
-
-// В функции DOMContentLoaded добавьте вызов:
-document.addEventListener('DOMContentLoaded', function() {
-    initMobileMenu();
-    // остальной существующий код...
-});
-
-        // Получение сообщений из Telegram - ПРОСТОЙ ЗАПРОС БЕЗ offset
         async function fetchTelegramMessages() {
             try {
-                // ПРОСТОЙ ЗАПРОС БЕЗ СЛОЖНЫХ ПАРАМЕТРОВ
                 const response = await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/getUpdates?limit=100`);
                 
                 if (!response.ok) {
@@ -934,7 +881,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 console.log('Telegram response:', data);
                 
-                // ФИЛЬТРУЕМ ТОЛЬКО ПО ТОПИКУ /3
                 const messages = data.result
                     .filter(update => {
                         if (!update.message || !update.message.chat) return false;
@@ -956,11 +902,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             threadId: msg.message_thread_id
                         };
                     })
-                    // ФИЛЬТРУЕМ КОРОТКИЕ И ТЕСТОВЫЕ СООБЩЕНИЯ
                     .filter(post => {
                         const content = post.content.trim();
-                        // Убираем слишком короткие сообщения (меньше 10 символов)
-                        // и сообщения которые выглядят как тестовые
                         const isVeryShort = content.length < 10;
                         const isTestMessage = content.toLowerCase().includes('тест') && content.length < 30;
                         return !isVeryShort && !isTestMessage;
@@ -976,7 +919,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Извлечение заголовка из текста (БЕЗ ДУБЛИРОВАНИЯ)
         function extractTitle(text) {
             if (!text) return 'Новость';
             
@@ -988,17 +930,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const firstLine = lines[0];
             
-            // Если весь текст короткий (помещается в заголовок) - возвращаем пустую строку
-            // чтобы не дублировать в заголовке и содержании
             if (text.length <= 80) {
-                return ''; // Пустой заголовок - текст будет только в содержании
+                return '';
             }
             
-            // Для длинных текстов берем первую строку как заголовок
             return firstLine.length > 60 ? firstLine.substring(0, 60) + '...' : firstLine;
         }
 
-        // Форматирование даты
         function formatDate(timestamp) {
             return new Date(timestamp).toLocaleDateString('ru-RU', {
                 day: '2-digit',
@@ -1009,7 +947,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // Отображение новостей
         function displayNews(posts) {
             const container = document.getElementById('newsContainer');
             
@@ -1019,7 +956,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             container.innerHTML = posts.map((post, index) => {
-                // Если заголовок пустой (короткий текст) - показываем только содержание
                 const hasTitle = post.title.length > 0;
                 const showFullContent = post.content.length <= 150;
                 const displayContent = showFullContent ? post.content : post.content.substring(0, 150) + '...';
@@ -1040,7 +976,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }).join('');
         }
 
-        // Открытие модального окна
         function openNewsModal(index) {
             const post = currentNews[index];
             const modal = document.getElementById('newsModal');
@@ -1049,8 +984,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const modalText = document.getElementById('modalText');
             const modalAuthor = document.getElementById('modalAuthor');
             
-            // В модальном окне всегда показываем полный текст
-            modalTitle.textContent = post.title || post.content; // Если заголовка нет - используем текст
+            modalTitle.textContent = post.title || post.content;
             modalDate.textContent = post.date;
             modalText.innerHTML = post.content.replace(/\n/g, '<br>');
             modalAuthor.textContent = `Автор: ${post.author}`;
@@ -1059,23 +993,10 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.style.overflow = 'hidden';
         }
 
-        // Закрытие модального окна
         function closeNewsModal() {
             const modal = document.getElementById('newsModal');
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
-        }
-
-        // Остальные функции остаются прежними
-        function initNavigation() {
-            const nav = document.getElementById('navbar');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 100) {
-                    nav.classList.add('scrolled');
-                } else {
-                    nav.classList.remove('scrolled');
-                }
-            });
         }
 
         function initLogoAnimation() {
@@ -1102,6 +1023,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Запуск при загрузке
         document.addEventListener('DOMContentLoaded', function() {
+            initMobileMenu();
             initNavigation();
             initLogoAnimation();
             loadNews();
