@@ -851,6 +851,37 @@
             });
         });
 
+
+        // Принудительное выравнивание всех текстов
+            setTimeout(() => {
+                // Выравнивание в футере
+                const footerTexts = document.querySelectorAll('footer p');
+                footerTexts.forEach(p => {
+                    p.style.textAlign = 'center';
+                    p.style.margin = '15px auto';
+                    p.style.width = '100%';
+                    p.style.display = 'block';
+                });
+                
+                // Выравнивание текста над формой
+                const formText = document.querySelector('#application .container > p');
+                if (formText) {
+                    formText.style.textAlign = 'center';
+                    formText.style.margin = '0 auto 30px auto';
+                    formText.style.width = '100%';
+                    formText.style.display = 'block';
+                }
+                
+                // Выравнивание текста в информации
+                const infoText = document.querySelector('#info .container > p');
+                if (infoText) {
+                    infoText.style.textAlign = 'center';
+                    infoText.style.margin = '0 auto 30px auto';
+                    infoText.style.width = '100%';
+                    infoText.style.display = 'block';
+                }
+            }, 100);
+
         // Анимация лого при клике
         const logoLink = document.querySelector('.logo');
         if (logoLink) {
@@ -872,3 +903,4 @@
     </script>
 </body>
 </html>
+
