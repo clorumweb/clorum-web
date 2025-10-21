@@ -541,6 +541,133 @@
             margin-left: 30px;
         }
 
+
+        /* Мобильная навигация */
+.mobile-menu-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.mobile-menu-btn span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: #ff6600;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    padding: 20px;
+    z-index: 999;
+    border-top: 1px solid #ff6600;
+    box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+}
+
+.mobile-menu.active {
+    display: block;
+}
+
+.mobile-nav-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.mobile-nav-links li {
+    margin: 0;
+}
+
+.mobile-nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 12px 15px;
+    display: block;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.mobile-nav-links a:hover,
+.mobile-nav-links a.active {
+    color: #ff6600;
+    border-color: #ff6600;
+    background: rgba(255, 102, 0, 0.1);
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none !important;
+    }
+    
+    .mobile-menu-btn {
+        display: flex;
+    }
+    
+    /* Улучшения для мобильных */
+    .container {
+        padding: 0 15px;
+    }
+    
+    h1 {
+        font-size: 2.2rem !important;
+    }
+    
+    h2 {
+        font-size: 1.8rem !important;
+    }
+    
+    p {
+        font-size: 1rem !important;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    /* Улучшение логотипа на мобильных */
+    .logo span {
+        font-size: 1.5rem !important;
+    }
+    
+    .logo img {
+        height: 30px !important;
+        margin-right: 8px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8rem !important;
+    }
+    
+    h2 {
+        font-size: 1.5rem !important;
+    }
+    
+    .container {
+        padding: 0 10px;
+    }
+}
+
         .nav-links a {
             color: #fff;
             text-decoration: none;
@@ -806,22 +933,42 @@
         <div class="abstract-shape circle circle-2"></div>
     </div>
 
-    <!-- Навигация -->
-    <nav id="navbar">
-        <div class="container">
-            <a href="#home" class="logo" style="display: flex; align-items: center; text-decoration: none;">
-                <img src="logo.png" alt="Clorum" style="height: 35px; margin-right: 10px;">
-                <span style="color: #ff6600; font-size: 1.8rem; font-weight: bold; letter-spacing: 2px;">CLORUM</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html" style="color: #ff6600;">Главная</a></li>
-                <li><a href="news.html">Новости</a></li>
-                <li><a href="stats.html">Статистика сервера</a></li>
-                <li><a href="event.html">Ивенты</a></li>
-                <li><a href="https://t.me/ClorumSupportBot" target="_blank">Тех.поддержка</a></li>
-            </ul>
-        </div>
-    </nav>
+<!-- Навигация -->
+<nav id="navbar">
+    <div class="container">
+        <a href="index.html" class="logo" style="display: flex; align-items: center; text-decoration: none;">
+            <img src="logo.png" alt="Clorum" style="height: 35px; margin-right: 10px;" id="logoImg">
+            <span style="color: #ff6600; font-size: 1.8rem; font-weight: bold; letter-spacing: 2px;">CLORUM</span>
+        </a>
+        
+        <!-- Десктопная навигация -->
+        <ul class="nav-links">
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="news.html">Новости</a></li>
+            <li><a href="stats.html">Статистика</a></li>
+            <li><a href="event.html">Ивенты</a></li>
+            <li><a href="https://t.me/ClorumSupportBot" target="_blank">Поддержка</a></li>
+        </ul>
+        
+        <!-- Мобильная кнопка меню -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- Мобильное меню -->
+<div class="mobile-menu" id="mobileMenu">
+    <ul class="mobile-nav-links">
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="news.html">Новости</a></li>
+        <li><a href="stats.html">Статистика</a></li>
+        <li><a href="event.html">Ивенты</a></li>
+        <li><a href="https://t.me/ClorumSupportBot" target="_blank">Поддержка</a></li>
+    </ul>
+</div>
 
     <!-- Основной контент -->
     <main>
@@ -984,6 +1131,61 @@
                 } else {
                     nav.classList.remove('scrolled');
                 }
+
+
+                // Мобильное меню
+function initMobileMenu() {
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    
+    if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.toggle('active');
+            // Анимация кнопки
+            const spans = this.querySelectorAll('span');
+            if (mobileMenu.classList.contains('active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(6px, -6px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
+        
+        // Закрытие меню при клике на ссылку
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                // Сброс анимации кнопки
+                const spans = mobileMenuBtn.querySelectorAll('span');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            });
+        });
+        
+        // Закрытие меню при клике вне его
+        document.addEventListener('click', function(e) {
+            if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+                // Сброс анимации кнопки
+                const spans = mobileMenuBtn.querySelectorAll('span');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
+    }
+}
+
+// В функции DOMContentLoaded добавьте вызов:
+document.addEventListener('DOMContentLoaded', function() {
+    initMobileMenu();
+    // остальной существующий код...
+});
                 
                 // Анимация секций - постоянно проверяем видимость
                 sections.forEach(section => {
@@ -1135,3 +1337,4 @@
     </script>
 </body>
 </html>
+
