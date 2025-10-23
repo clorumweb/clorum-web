@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Внутриигровая Реклама - Clorum</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .background-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .abstract-shape {
+            position: absolute;
+            opacity: 0.15;
+            filter: blur(8px);
+            transition: transform 0.5s ease;
+        }
+
+        .triangle {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            background: transparent !important;
+        }
+
+        .triangle-1 {
+            border-width: 0 150px 260px 150px;
+            border-color: transparent transparent #ff6600 transparent;
+            top: 10%;
+            left: 5%;
+            animation: floatTriangle 25s infinite ease-in-out;
+        }
+
+        .triangle-2 {
+            border-width: 260px 150px 0 150px;
+            border-color: #ff6600 transparent transparent transparent;
+            top: 60%;
+            right: 8%;
+            animation: floatTriangle 30s infinite ease-in-out reverse;
+        }
+
+        .rectangle {
+            background: linear-gradient(45deg, #ff6600, #ff8c00);
+            transform: rotate(45deg);
+        }
+
+        .rectangle-1 {
+            width: 300px;
+            height: 100px;
+            top: 15%;
+            right: 15%;
+            animation: floatRectangle 20s infinite ease-in-out;
+        }
+
+        .rectangle-2 {
+            width: 200px;
+            height: 80px;
+            bottom: 20%;
+            left: 10%;
+            animation: floatRectangle 25s infinite ease-in-out reverse;
+        }
+
+        .hexagon {
+            background: #ff6600;
+            position: relative;
+            width: 120px;
+            height: 69px;
+        }
+
+        .hexagon:before,
+        .hexagon:after {
+            content: "";
+            position: absolute;
+            width: 0;
+            border-left: 60px solid transparent;
+            border-right: 60px solid transparent;
+        }
+
+        .hexagon:before {
+            bottom: 100%;
+            border-bottom: 34.5px solid #ff6600;
+        }
+
+        .hexagon:after {
+            top: 100%;
+            border-top: 34.5px solid #ff6600;
+        }
+
+        .hexagon-1 {
+            top: 25%;
+            left: 20%;
+            animation: floatHexagon 35s infinite ease-in-out;
+        }
+
+        .hexagon-2 {
+            top: 70%;
+            right: 25%;
+            animation: floatHexagon 40s infinite ease-in-out reverse;
+        }
+
+        .diamond {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #ff6600, #ff8c00);
+            transform: rotate(45deg);
+        }
+
+        .diamond-1 {
+            top: 40%;
+            left: 8%;
+            animation: floatDiamond 30s infinite ease-in-out;
+        }
+
+        .diamond-2 {
+            top: 80%;
+            right: 12%;
+            animation: floatDiamond 35s infinite ease-in-out reverse;
+        }
+
+        .circle {
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,102,0,0.8) 0%, rgba(255,102,0,0.2) 70%);
+        }
+
+        .circle-1 {
+            width: 200px;
+            height: 200px;
+            bottom: 10%;
+            left: 20%;
+            animation: floatCircle 40s infinite ease-in-out;
+        }
+
+        .circle-2 {
+            width: 150px;
+            height: 150px;
+            top: 10%;
+            right: 25%;
+            animation: floatCircle 45s infinite ease-in-out reverse;
+        }
+
+        @keyframes floatTriangle {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-40px) rotate(120deg); }
+            66% { transform: translateY(30px) rotate(240deg); }
+        }
+
+        @keyframes floatRectangle {
+            0%, 100% { transform: translateY(0) rotate(45deg) scale(1); }
+            50% { transform: translateY(-25px) rotate(45deg) scale(1.1); }
+        }
+
+        @keyframes floatHexagon {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-30px) rotate(90deg); }
+            50% { transform: translateY(20px) rotate(180deg); }
+            75% { transform: translateY(-15px) rotate(270deg); }
+        }
+
+        @keyframes floatDiamond {
+            0%, 100% { transform: translateX(0) rotate(45deg); }
+            33% { transform: translateX(-40px) rotate(135deg); }
+            66% { transform: translateX(40px) rotate(225deg); }
+        }
+
+        @keyframes floatCircle {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -20px) scale(1.1); }
+            50% { transform: translate(-20px, 30px) scale(0.9); }
+            75% { transform: translate(25px, 25px) scale(1.05); }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 15px 0;
+            background-color: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 5px 15px rgba(255, 102, 0, 0.2);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff6600;
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #ff6600;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 25px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: #ff6600;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            padding: 20px;
+            z-index: 999;
+            border-top: 1px solid #ff6600;
+            box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .mobile-nav-links li {
+            margin: 0;
+        }
+
+        .mobile-nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 12px 15px;
+            display: block;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            text-align: center;
+        }
+
+        .mobile-nav-links a:hover,
+        .mobile-nav-links a.active {
+            color: #ff6600;
+            border-color: #ff6600;
+            background: rgba(255, 102, 0, 0.1);
+        }
+
+        .news-section {
+            padding: 120px 20px 80px;
+            min-height: 100vh;
+        }
+
+        .news-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .news-header h1 {
+            font-size: 3rem;
+            color: #ff6600;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+            position: relative;
+        }
+
+        .news-header h1::after {
+            content: '';
+            background: url('logo.png') no-repeat center center;
+            background-size: contain;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            opacity: 0.1;
+            z-index: -1;
+        }
+		
+		
+// Уберите стили для disabled кнопок из CSS, или замените на:
+.btn-past-news {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #ff6600;
+    color: #000;
+    border: 2px solid #ff6600;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 10px 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn-past-news:hover {
+    background-color: #ff8c00;
+    border-color: #ff8c00;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+}
+
+/* Убираем стили для disabled или делаем их такими же как для обычной кнопки */
+.btn-past-news:disabled {
+    background-color: #ff6600;
+    border-color: #ff6600;
+    color: #000;
+    cursor: pointer;
+    opacity: 1;
+}
+
+.btn-past-news:disabled:hover {
+    background-color: #ff8c00;
+    border-color: #ff8c00;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+}
+
+        .news-header p {
+            font-size: 1.2rem;
+            color: #ccc;
+        }
+
+        .load-more-section {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .btn-past-news {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #ff6600;
+            color: #000;
+            border: 2px solid #ff6600;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .btn-past-news:hover {
+            background-color: #ff8c00;
+            border-color: #ff8c00;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .news-card {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .news-card:hover {
+            border-color: #ff6600;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 102, 0, 0.2);
+        }
+
+        .news-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #ff6600;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .news-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .news-date {
+            color: #ff6600;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .news-title {
+            color: #fff;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .news-content {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            max-height: 120px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+        }
+
+        .news-author {
+            color: #ff6600;
+            font-weight: 600;
+        }
+
+        .news-link {
+            color: #ff6600;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .news-link:hover {
+            color: #ff8c00;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid #ff6600;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 0 50px rgba(255, 102, 0, 0.3);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff6600;
+            color: #000;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .modal-close:hover {
+            background: #ff8c00;
+        }
+
+        .modal-title {
+            color: #ff6600;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            padding-right: 40px;
+        }
+
+        .modal-date {
+            color: #ff6600;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .modal-text {
+            color: #ccc;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        .modal-author {
+            color: #ff6600;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: transparent;
+            color: #ff6600;
+            border: 2px solid #ff6600;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #ff6600;
+            color: #000;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #ff6600;
+            font-size: 1.2rem;
+        }
+
+        .error-message {
+            background: rgba(255, 102, 0, 0.1);
+            border: 1px solid #ff6600;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .telegram-fallback {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(255, 102, 0, 0.05);
+            border-radius: 10px;
+        }
+
+        footer {
+            background-color: #000;
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid #ff6600;
+        }
+
+        @keyframes logoSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .logo-spin {
+            animation: logoSpin 0.8s ease-in-out;
+        }
+
+        @media (max-width: 768px) {
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none !important;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            .news-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .modal-content {
+                margin: 10px;
+                padding: 20px;
+            }
+
+            .abstract-shape {
+                opacity: 0.1;
+            }
+            
+            .triangle-1, .triangle-2 {
+                border-width: 0 80px 140px 80px;
+            }
+            
+            .rectangle-1, .rectangle-2 {
+                width: 150px;
+                height: 50px;
+            }
+            
+            .hexagon {
+                width: 80px;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+            
+            .news-header h1 {
+                font-size: 2rem !important;
+            }
+            
+            .news-title {
+                font-size: 1.1rem;
+            }
+            
+            .news-content {
+                font-size: 0.9rem;
+            }
+            
+            .btn, .btn-past-news {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .logo span {
+                font-size: 1.5rem !important;
+            }
+            
+            .logo img {
+                height: 30px !important;
+                margin-right: 8px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .news-header h1 {
+                font-size: 1.8rem !important;
+            }
+            
+            .container {
+                padding: 0 10px;
+            }
+            
+            .news-section {
+                padding: 100px 15px 60px;
+            }
+            
+            .news-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-shapes">
+        <div class="abstract-shape triangle triangle-1"></div>
+        <div class="abstract-shape triangle triangle-2"></div>
+        <div class="abstract-shape rectangle rectangle-1"></div>
+        <div class="abstract-shape rectangle rectangle-2"></div>
+        <div class="abstract-shape hexagon hexagon-1"></div>
+        <div class="abstract-shape hexagon hexagon-2"></div>
+        <div class="abstract-shape diamond diamond-1"></div>
+        <div class="abstract-shape diamond diamond-2"></div>
+        <div class="abstract-shape circle circle-1"></div>
+        <div class="abstract-shape circle circle-2"></div>
+    </div>
+
+    <nav id="navbar">
+        <div class="container">
+            <a href="index.html" class="logo" style="display: flex; align-items: center; text-decoration: none;">
+                <img src="logo.png" alt="Clorum" style="height: 35px; margin-right: 10px;" id="logoImg">
+                <span style="color: #ff6600; font-size: 1.8rem; font-weight: bold; letter-spacing: 2px;">CLORUM</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="ad.html" style="color: #ff6600;">Внутриигровая реклама</a></li>
+				<li><a href="news.html">Новости</a></li>
+                <li><a href="stats.html">Статистика</a></li>
+                <li><a href="event.html">Ивенты</a></li>
+                <li><a href="https://t.me/ClorumSupportBot" target="_blank">Поддержка</a></li>
+            </ul>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <ul class="mobile-nav-links">
+            <li><a href="index.html">Главная</a></li>
+			<li><a href="ad.html" class="active">Внутриигровая реклама</a></li>
+            <li><a href="news.html">Новости</a></li>
+            <li><a href="stats.html">Статистика</a></li>
+            <li><a href="event.html">Ивенты</a></li>
+            <li><a href="https://t.me/ClorumSupportBot" target="_blank">Поддержка</a></li>
+        </ul>
+    </div>
+
+    <div class="modal-overlay" id="newsModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">×</button>
+            <h2 class="modal-title" id="modalTitle"></h2>
+            <div class="modal-date" id="modalDate"></div>
+            <div class="modal-text" id="modalText"></div>
+            <div class="modal-author" id="modalAuthor"></div>
+        </div>
+    </div>
+
+    <section class="news-section">
+        <div class="container">
+            <div class="news-header">
+                <h1>Внутриигровая Реклама</h1>
+                <button id="refreshBtn" class="btn">🔄 Обновить</button>
+            </div>
+
+            <div class="load-more-section">
+                <button id="loadMoreBtn" class="btn-past-news">
+                    📜 Показать прошлую рекламу
+                </button>
+                <button id="showLessBtn" class="btn-past-news" style="display: none;">
+                    🔽 Скрыть прошлые рекламы
+                </button>
+            </div>
+
+            <div id="newsContainer" class="news-grid">
+                <div class="loading">🔄 Загружаем рекламу из Telegram...</div>
+            </div>
+
+            <div class="telegram-fallback">
+                <a href="https://t.me/clorum_gr/684" target="_blank" class="btn">📢 Перейти в чат внутриигровой рекламы</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Техническая поддержка в tg: @ClorumSupportBot</p>
+        </div>
+    </footer>
+
+    <script>
+        const CONFIG = {
+            botToken: '8367850520:AAHFsk2h74WNpuPpwlVMLxYgorScmILrgPA',
+            chatId: '@clorum_gr',
+            topicId: 684
+        };
+
+        let currentNews = [];
+        let showingAllNews = false;
+
+        // Загрузка новостей
+        async function loadNews() {
+            const container = document.getElementById('newsContainer');
+            
+            try {
+                container.innerHTML = '<div class="loading">🔄 Загружаем рекламу...</div>';
+                
+                const posts = await fetchTelegramMessages();
+                
+                if (posts.length === 0) {
+                    container.innerHTML = '<div class="error-message">📭 Рекламы пока нет</div>';
+                    return;
+                }
+                
+                currentNews = posts;
+                displayNews(posts);
+                
+            } catch (error) {
+                console.error('Ошибка:', error);
+                container.innerHTML = '<div class="error-message">❌ Ошибка загрузки</div>';
+            }
+        }
+
+        // Получение сообщений из Telegram
+        async function fetchTelegramMessages() {
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/getUpdates?limit=100`);
+                const data = await response.json();
+                
+                if (!data.ok) return [];
+                
+                const messages = data.result
+                    .filter(update => {
+                        if (!update.message) return false;
+                        const chat = update.message.chat;
+                        return chat && chat.username === 'clorum_gr' && 
+                               update.message.message_thread_id === CONFIG.topicId;
+                    })
+                    .map(update => {
+                        const msg = update.message;
+                        const content = msg.text || msg.caption || '';
+                        return {
+                            id: msg.message_id,
+                            title: content.split('\n')[0] || 'Новость',
+                            content: content,
+                            date: new Date(msg.date * 1000).toLocaleDateString('ru-RU'),
+                            author: msg.from?.first_name || 'Администрация'
+                        };
+                    })
+                    .filter(post => post.content.length > 10)
+                    .sort((a, b) => b.id - a.id) // Новые сверху
+                    .slice(0, 15);
+                    
+                return messages;
+                    
+            } catch (error) {
+                throw error;
+            }
+        }
+
+        // Отображение новостей
+        function displayNews(posts) {
+            const container = document.getElementById('newsContainer');
+            const postsToShow = showingAllNews ? posts : posts.slice(0, 3);
+            
+            container.innerHTML = postsToShow.map((post, index) => `
+                <div class="news-card" onclick="openNewsModal(${index})">
+                    <div class="news-date">${post.date}</div>
+                    <h3 class="news-title">${post.title.length > 60 ? post.title.substring(0, 60) + '...' : post.title}</h3>
+                    <div class="news-content">
+                        ${post.content.length > 150 ? post.content.substring(0, 150) + '...' : post.content}
+                    </div>
+                    <div class="news-meta">
+                        <span class="news-author">${post.author}</span>
+                        ${post.content.length > 150 ? '<span class="news-link">📖 Читать полностью</span>' : ''}
+                    </div>
+                </div>
+            `).join('');
+            
+            // Добавляем сообщение о скрытых новостях
+            if (!showingAllNews && posts.length > 3) {
+                container.innerHTML += `
+                    <div class="news-card" style="text-align: center; cursor: default; opacity: 0.7; background: rgba(255,102,0,0.1);">
+                        <div class="news-content">
+                            <p style="color: #ff6600; font-weight: bold;">... и еще ${posts.length - 3} новостей</p>
+                            <p style="margin-top: 10px;">Нажмите "Показать прошлую рекламу" чтобы увидеть все</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            updateLoadMoreButton(posts.length);
+        }
+
+        // Обновление кнопки
+        function updateLoadMoreButton(totalPosts) {
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            const showLessBtn = document.getElementById('showLessBtn');
+            
+            if (totalPosts > 684) {
+                if (showingAllNews) {
+                    loadMoreBtn.style.display = 'none';
+                    showLessBtn.style.display = 'inline-block';
+                } else {
+                    loadMoreBtn.style.display = 'inline-block';
+                    showLessBtn.style.display = 'none';
+                    loadMoreBtn.textContent = `📜 Показать прошлую рекламу (еще ${totalPosts - 3})`;
+                }
+            } else {
+                loadMoreBtn.style.display = 'none';
+                showLessBtn.style.display = 'none';
+            }
+        }
+
+        // Переключение отображения новостей
+        function toggleAllNews() {
+            showingAllNews = !showingAllNews;
+            displayNews(currentNews);
+        }
+
+        // Модальное окно
+        function openNewsModal(index) {
+            const post = currentNews[index];
+            document.getElementById('modalTitle').textContent = post.title;
+            document.getElementById('modalDate').textContent = post.date;
+            document.getElementById('modalText').innerHTML = post.content.replace(/\n/g, '<br>');
+            document.getElementById('modalAuthor').textContent = `Автор: ${post.author}`;
+            document.getElementById('newsModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeNewsModal() {
+            document.getElementById('newsModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Мобильное меню
+        function initMobileMenu() {
+            const btn = document.getElementById('mobileMenuBtn');
+            const menu = document.getElementById('mobileMenu');
+            
+            if (btn && menu) {
+                btn.addEventListener('click', () => menu.classList.toggle('active'));
+                
+                document.addEventListener('click', (e) => {
+                    if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                        menu.classList.remove('active');
+                    }
+                });
+            }
+        }
+
+        // Навигация
+        function initNavigation() {
+            window.addEventListener('scroll', () => {
+                document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 100);
+            });
+        }
+
+        // Логотип
+        function initLogoAnimation() {
+            const logoLink = document.querySelector('.logo');
+            const logoImg = document.getElementById('logoImg');
+            if (logoLink && logoImg) {
+                logoLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    logoImg.classList.add('logo-spin');
+                    setTimeout(() => {
+                        logoImg.classList.remove('logo-spin');
+                        window.location.href = 'index.html';
+                    }, 800);
+                });
+            }
+        }
+
+        // Автообновление
+        function startAutoRefresh() {
+            setInterval(loadNews, 60000);
+        }
+		
+		// Получение сообщений из Telegram
+async function fetchTelegramMessages() {
+    try {
+        console.log('🔍 Отправляем запрос к Telegram API...');
+        const response = await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/getUpdates?limit=100`);
+        const data = await response.json();
+        
+        console.log('📨 Ответ от Telegram:', data);
+        
+        if (!data.ok) {
+            console.error('❌ Telegram API ошибка:', data.description);
+            return [];
+        }
+        
+        if (!data.result || data.result.length === 0) {
+            console.log('📭 Нет обновлений в ответе');
+            return [];
+        }
+        
+        console.log(`📊 Всего обновлений: ${data.result.length}`);
+        
+        const messages = data.result
+            .filter(update => {
+                if (!update.message) {
+                    return false;
+                }
+                
+                const chat = update.message.chat;
+                if (!chat) {
+                    return false;
+                }
+                
+                console.log(`👥 Чат: ${chat.username}, Топик: ${update.message.message_thread_id}`);
+                
+                // Проверяем username чата и ID топика
+                const isCorrectChat = chat.username === 'clorum_gr';
+                const isCorrectTopic = update.message.message_thread_id === CONFIG.topicId;
+                
+                if (!isCorrectChat) {
+                    console.log('❌ Неправильный чат');
+                    return false;
+                }
+                
+                if (!isCorrectTopic) {
+                    console.log('❌ Неправильный топик');
+                    return false;
+                }
+                
+                console.log('✅ Сообщение подходит!');
+                return true;
+            })
+            .map(update => {
+                const msg = update.message;
+                const content = msg.text || msg.caption || '';
+                console.log(`📝 Сообщение ${msg.message_id}:`, content);
+                
+                // Извлекаем заголовок из первой строки
+                const firstLine = content.split('\n')[0] || 'Новость';
+                const title = firstLine.length > 60 ? firstLine.substring(0, 60) + '...' : firstLine;
+                
+                return {
+                    id: msg.message_id,
+                    title: title,
+                    content: content,
+                    date: new Date(msg.date * 1000).toLocaleDateString('ru-RU', {
+                        day: '2-digit',
+                        month: '2-digit', 
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }),
+                    author: msg.from?.first_name || 'Администрация'
+                };
+            })
+            // УБИРАЕМ СЛИШКОМ СТРОГУЮ ФИЛЬТРАЦИЮ
+            .filter(post => {
+                // Оставляем все сообщения кроме совсем пустых
+                return post.content && post.content.trim().length > 5;
+            })
+            .sort((a, b) => b.id - a.id) // Новые сверху
+            .slice(0, 15);
+        
+        console.log(`✅ Отфильтровано сообщений: ${messages.length}`);
+        return messages;
+            
+    } catch (error) {
+        console.error('🚨 Ошибка получения сообщений:', error);
+        throw error;
+    }
+}
+
+
+// Обновление кнопки - ВСЕГДА АКТИВНАЯ ВЕРСИЯ
+function updateLoadMoreButton(totalPosts) {
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    const showLessBtn = document.getElementById('showLessBtn');
+    
+    // ВСЕГДА показываем одну из кнопок и они ВСЕГДА активны
+    if (showingAllNews) {
+        loadMoreBtn.style.display = 'none';
+        showLessBtn.style.display = 'inline-block';
+        showLessBtn.textContent = `🔽 Скрыть прошлые новости`;
+        showLessBtn.disabled = false;
+    } else {
+        loadMoreBtn.style.display = 'inline-block';
+        showLessBtn.style.display = 'none';
+        
+        if (totalPosts > 3) {
+            loadMoreBtn.textContent = `📜 Показать прошлые новости (еще ${totalPosts - 3})`;
+        } else {
+            loadMoreBtn.textContent = `📜 Показать прошлые новости`;
+        }
+        loadMoreBtn.disabled = false;
+    }
+}
+
+
+
+		
+		// Получение сообщений из Telegram - ИСПРАВЛЕННАЯ ВЕРСИЯ
+async function fetchTelegramMessages() {
+    try {
+        // Пробуем getChatHistory если доступен
+        try {
+            const response = await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/getChatHistory?chat_id=@clorum_gr&limit=50`);
+            const data = await response.json();
+            
+            if (data.ok && data.result && data.result.messages) {
+                const messages = data.result.messages
+                    .filter(msg => msg.message_thread_id === CONFIG.topicId)
+                    .map(msg => {
+                        const content = msg.text || msg.caption || '';
+                        const firstLine = content.split('\n')[0] || 'Новость';
+                        
+                        return {
+                            id: msg.message_id,
+                            title: firstLine.length > 60 ? firstLine.substring(0, 60) + '...' : firstLine,
+                            content: content,
+                            date: new Date(msg.date * 1000).toLocaleDateString('ru-RU', {
+                                day: '2-digit', month: '2-digit', year: 'numeric',
+                                hour: '2-digit', minute: '2-digit'
+                            }),
+                            author: msg.from?.first_name || 'Администрация'
+                        };
+                    })
+                    .filter(post => post.content && post.content.trim().length > 5)
+                    .sort((a, b) => b.id - a.id);
+                
+                console.log(`✅ Загружено через getChatHistory: ${messages.length}`);
+                return messages;
+            }
+        } catch (e) {
+            console.log('getChatHistory не доступен, используем getUpdates');
+        }
+        
+        // Если getChatHistory не сработал, используем getUpdates
+        const response = await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/getUpdates?limit=100`);
+        const data = await response.json();
+        
+        if (!data.ok) return [];
+        
+        const messages = data.result
+            .filter(update => {
+                if (!update.message || !update.message.chat) return false;
+                const chat = update.message.chat;
+                return chat.username === 'clorum_gr' && 
+                       update.message.message_thread_id === CONFIG.topicId;
+            })
+            .map(update => {
+                const msg = update.message;
+                const content = msg.text || msg.caption || '';
+                const firstLine = content.split('\n')[0] || 'Новость';
+                
+                return {
+                    id: msg.message_id,
+                    title: firstLine.length > 60 ? firstLine.substring(0, 60) + '...' : firstLine,
+                    content: content,
+                    date: new Date(msg.date * 1000).toLocaleDateString('ru-RU', {
+                        day: '2-digit', month: '2-digit', year: 'numeric',
+                        hour: '2-digit', minute: '2-digit'
+                    }),
+                    author: msg.from?.first_name || 'Администрация'
+                };
+            })
+            .filter(post => post.content && post.content.trim().length > 5)
+            .sort((a, b) => b.id - a.id)
+            .slice(0, 30); // Увеличиваем лимит
+        
+        console.log(`✅ Загружено через getUpdates: ${messages.length}`);
+        return messages;
+            
+    } catch (error) {
+        console.error('🚨 Ошибка:', error);
+        throw error;
+    }
+}
+
+
+        // Запуск
+        document.addEventListener('DOMContentLoaded', function() {
+            initMobileMenu();
+            initNavigation();
+            initLogoAnimation();
+            loadNews();
+            startAutoRefresh();
+            
+            document.getElementById('refreshBtn').addEventListener('click', loadNews);
+            document.getElementById('loadMoreBtn').addEventListener('click', toggleAllNews);
+            document.getElementById('showLessBtn').addEventListener('click', toggleAllNews);
+            document.getElementById('modalClose').addEventListener('click', closeNewsModal);
+            
+            document.getElementById('newsModal').addEventListener('click', (e) => {
+                if (e.target === e.currentTarget) closeNewsModal();
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeNewsModal();
+            });
+        });
+    </script>
+</body>
+</html>
