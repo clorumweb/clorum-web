@@ -750,28 +750,10 @@
         <div class="container">
             <div class="news-header">
                 <h1>Новости сервера</h1>
-                <p>Следите за обновлениями и событиями на Clorum</p>
-                <button id="refreshBtn" class="btn">🔄 Обновить новости</button>
+                <p>Временно не работаeт</p>
             </div>
 
-            <div id="newsContainer" class="news-grid">
-                <div class="loading">🔄 Загружаем новости из Telegram...</div>
-            </div>
-
-            <div class="telegram-fallback">
-                <h3>Хочешь видеть все новости первым?</h3>
-                <p>Подпишись на наш Telegram-чат и читай новости в реальном времени</p>
-                <a href="https://t.me/clorum_gr/3" target="_blank" class="btn">📢 Перейти в чат новостей</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Футер -->
-    <footer>
-        <div class="container">
-            <p>Техническая поддержка в tg: @ClorumSupportBot</p>
-        </div>
-    </footer>
+    
 
     <script>
         // КОНФИГУРАЦИЯ
@@ -840,32 +822,6 @@
             });
         }
 
-        // Загрузка новостей
-        async function loadNews() {
-            const container = document.getElementById('newsContainer');
-            
-            try {
-                container.innerHTML = '<div class="loading">🔄 Загружаем новости из Telegram...</div>';
-                
-                let posts = await fetchTelegramMessages();
-                
-                if (posts.length === 0) {
-                    container.innerHTML = `<div class="error-message">
-                        📭 В топике /3 пока нет новостей.
-                    </div>`;
-                    return;
-                }
-                
-                currentNews = posts;
-                displayNews(posts);
-                
-            } catch (error) {
-                console.error('Ошибка загрузки новостей:', error);
-                container.innerHTML = `<div class="error-message">
-                    ❌ Ошибка: ${error.message}
-                </div>`;
-            }
-        }
 
         async function fetchTelegramMessages() {
             try {
