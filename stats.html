@@ -741,41 +741,7 @@
                 Обновляется каждые 10 секунд
             </div>
             
-            <!-- Диагностика -->
-            <div class="diagnostic-info">
-                <h3>🔧 Диагностика подключения</h3>
-                <div class="info-row">
-                    <div class="info-label">Текущий IP сервера:</div>
-                    <div class="info-value" id="currentIP">-</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Статус API:</div>
-                    <div class="info-value" id="apiStatus">
-                        <span class="loading-spinner"></span> Загрузка...
-                    </div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Используемый API:</div>
-                    <div class="info-value" id="apiUsed">mcstatus.io</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Последняя проверка:</div>
-                    <div class="info-value" id="lastCheckTime">-</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Пинг:</div>
-                    <div class="info-value" id="ping">-</div>
-                </div>
-                
-                <button onclick="forceUpdate()" class="btn" style="margin-top: 15px;">
-                    🔄 Обновить сейчас
-                </button>
-                <button onclick="showServerInfo()" class="btn" style="margin-top: 15px; margin-left: 10px;">
-                    ℹ️ Информация о сервере
-                </button>
-            </div>
-        </div>
-    </section>
+        
 
     <!-- Кнопка назад -->
     <section style="min-height: auto; padding: 0 20px 20px 20px; margin-top: -130px;">
@@ -1087,3 +1053,4 @@ IP: ${SERVER_IP}
     </script>
 </body>
 </html>
+
